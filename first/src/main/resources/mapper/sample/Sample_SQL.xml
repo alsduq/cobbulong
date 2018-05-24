@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sample">
+	
+	<select id="selectBoardList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT
+			    idx,
+			    title,
+			    hit_cnt,
+			    crea_dtm
+			FROM
+			    tb_board
+			WHERE
+				del_gb = 'N'    
+			ORDER BY idx DESC
+		]]>
+	</select>
+	
+	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="idx">
+		<![CDATA[
+			INSERT INTO tb_board
+			(
+			    title, 
+			    contents, 
+			    hit_cnt, 
+			    del_gb, 
+			    crea_dtm, 
+			    crea_id
+			)
+			VALUES
+			(
+			    #{title}, 
+			    #{contents}, 
+			    0, 
+			    'N', 
+			    now(), 
+			    'Admin'
+			)
+		]]>
+	</insert>
+	
+	<insert id="insertFile" parameterType="hashmap">
+	    <![CDATA[
+	        INSERT INTO tb_file
+	        (
+	            board_idx,
+	            original_file_name,
+	            stored_file_name,
+	            file_size,
+	            crea_dtm,
+	            crea_id
+	        )
+	        VALUES
+	        (
+	            #{board_idx},
+	            #{original_file_name},
+	            #{stored_file_name},
+	            #{file_size},
+	            now(),
+	            'Admin'
+	        )
+	    ]]>
+	</insert>
+
+
+	
+	<update id="updateHitCnt" parameterType="hashmap">
+		<![CDATA[
+			UPDATE tb_board 
+			SET
+				hit_cnt = ifnull(hit_cnt, 0) + 1
+			WHERE
+				idx = #{idx}	
+		]]>
+	</update>
+	
+	<select id="selectBoardDetail" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT
+				idx,
+				hit_cnt,
+				crea_id,
+				crea_dtm,
+				title,
+				contents
+			FROM
+				tb_board
+			WHERE
+				idx = #{idx}		
+		]]>
+	</select>
+	
+	<update id="updateBoard" parameterType="hashmap">
+		<![CDATA[
+			UPDATE tb_board
+			SET
+				title = #{title},
+				contents = #{contents}
+			WHERE
+				idx = #{idx}	
+		]]>
+	</update>
+	
+	<update id="deleteBoard" parameterType="hashmap">
+		<![CDATA[
+			UPDATE tb_board
+			SET
+				del_gb = 'Y'
+			WHERE
+				idx = #{idx}
+		]]>
+	</update>
+	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
+	    <![CDATA[
+	        SELECT
+	            idx,
+	            original_file_name,
+	            round(file_size/1024,1) AS file_size
+	        FROM
+	            tb_file
+	        WHERE
+	            board_idx = #{idx}
+	            AND del_gb = 'N'
+	    ]]>
+	</select>
+
+
+
+</mapper>
