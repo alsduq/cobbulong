@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import first.common.common.CommandMap;
@@ -50,9 +51,8 @@ public class SampleController {
 	@RequestMapping(value="/sample/openBoardDetail.do")
 	public ModelAndView openBoardDetail(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/sample/boardDetail");
-		
 		Map<String,Object> map = sampleService.selectBoardDetail(commandMap.getMap());
-		mv.addObject("map", map);
+		mv.addObject("map", map.get("map"));
 		mv.addObject("list", map.get("list"));
 		return mv;
 	}
@@ -62,7 +62,7 @@ public class SampleController {
 		ModelAndView mv = new ModelAndView("/sample/boardUpdate");
 		
 		Map<String,Object> map = sampleService.selectBoardDetail(commandMap.getMap());
-		mv.addObject("map", map);
+		mv.addObject("map", map.get("map"));
 		
 		return mv;
 	}
@@ -85,4 +85,22 @@ public class SampleController {
 		
 		return mv;
 	}
+	
+	@RequestMapping(value="/sample/commentInsert.do")
+	public @ResponseBody void commentInsert(CommandMap commandMap) throws Exception{
+		sampleService.insertComment(commandMap.getMap());
+	}
+	
+	@RequestMapping(value="/sample/commentList.do")
+    public @ResponseBody List<Map<String,Object>> commentList(CommandMap commandMap) throws Exception{
+		List<Map<String, Object>> list = sampleService.selectCommentList(commandMap.getMap());
+    	return list;
+    }
+	
+	@RequestMapping(value="/sample/commentDelete.do")
+    public @ResponseBody void commentDelete(CommandMap commandMap) throws Exception{
+		sampleService.deleteComment(commandMap.getMap());
+    }
+	
+	
 }

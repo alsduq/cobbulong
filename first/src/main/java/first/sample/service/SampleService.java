@@ -17,4 +17,10 @@ public interface SampleService {
 
 	void deleteBoard(Map<String, Object> map) throws Exception;
 
+	void insertComment(Map<String, Object> map) throws Exception;
+
+	List<Map<String, Object>> selectCommentList(Map<String, Object> map);
+
+	void deleteComment(Map<String, Object> map);
+
 }

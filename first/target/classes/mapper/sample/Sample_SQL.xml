@@ -112,6 +112,7 @@
 				idx = #{idx}
 		]]>
 	</update>
+	
 	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
 	    <![CDATA[
 	        SELECT
@@ -125,6 +126,57 @@
 	            AND del_gb = 'N'
 	    ]]>
 	</select>
+	
+	<insert id="insertComment" parameterType="hashmap" useGeneratedKeys="true" keyProperty="idx">
+		<![CDATA[
+			INSERT INTO tb_comment
+			(
+				parent_idx,
+				board_idx,
+				contents,
+				crea_id,
+				password,
+				crea_dtm,
+				del_gb
+			)
+			VALUES
+			(
+				#{parent_idx},
+				#{board_idx},
+				#{contents},
+				#{crea_id},
+				#{password},
+				now(),
+				'N'
+			)
+		]]>
+	</insert>
+	
+	<select id="selectCommentList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT
+			    idx,
+			    parent_idx,
+			    contents,
+			    crea_id,
+			    crea_dtm
+			FROM
+			    tb_comment
+			WHERE
+				del_gb = 'N' AND board_idx = #{board_idx}
+			ORDER BY idx ASC
+		]]>
+	</select>
+	
+	<update id="deleteComment" parameterType="hashmap">
+		<![CDATA[
+			UPDATE tb_comment
+			SET
+				del_gb = 'Y'
+			WHERE
+				idx = #{idx}
+		]]>
+	</update>
 
 
 
