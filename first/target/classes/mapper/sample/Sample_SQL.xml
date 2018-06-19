@@ -2,8 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="sample">
+	<resultMap type="hashmap" id="procResultHashMap"></resultMap>
+	<resultMap type="Integer" id="procResultInteger1"></resultMap>
+	<resultMap type="Integer" id="procResultInteger2"></resultMap>
+	<select id="selectBoardList" parameterType="hashmap" resultMap="procResultHashMap, procResultInteger1, procResultInteger2">
+			{ CALL study.SP_BOARDLIST_GET(#{page_idx}, 10, @O_TotalCount, @O_PageIndex)}
+	</select>
 	
-	<select id="selectBoardList" parameterType="hashmap" resultType="hashmap">
+	<!-- <select id="selectBoardList" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
 			SELECT
 			    idx,
@@ -15,8 +21,9 @@
 			WHERE
 				del_gb = 'N'    
 			ORDER BY idx DESC
+			LIMIT 0, 10;
 		]]>
-	</select>
+	</select> -->
 	
 	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="idx">
 		<![CDATA[
@@ -36,7 +43,7 @@
 			    0, 
 			    'N', 
 			    now(), 
-			    'Admin'
+			    #{crea_id}
 			)
 		]]>
 	</insert>
@@ -135,7 +142,6 @@
 				board_idx,
 				contents,
 				crea_id,
-				password,
 				crea_dtm,
 				del_gb
 			)
@@ -145,12 +151,21 @@
 				#{board_idx},
 				#{contents},
 				#{crea_id},
-				#{password},
 				now(),
 				'N'
 			)
 		]]>
 	</insert>
+	
+	<update id="updateComment" parameterType="hashmap">
+		<![CDATA[
+			UPDATE tb_comment
+			SET
+				contents = #{contents}
+			WHERE
+				idx = #{idx}
+		]]>
+	</update>
 	
 	<select id="selectCommentList" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[

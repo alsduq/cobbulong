@@ -70,5 +70,56 @@ Number.prototype.zf = function (len) { return this.toString().zf(len); };
 
 
 
+function fn_openBoardWrite(){
+	var myId = sessionStorage.getItem('myId');
+	console.log(myId);
+	if(myId == "" || myId == null){
+		alert("로그인시 이용 가능합니다.");
+		window.location.href = "/first/member/openLogIn.do"
+	} else {
+		var comSubmit = new ComSubmit();
+		comSubmit.setUrl("openBoardWrite.do");
+		comSubmit.submit();
+	}
+}
+
+var fn_dateConverter = (function(){
+	return { 
+		date : function(date){
+			var year = date.substr(0, 4);
+			var month = date.substr(5, 2);
+			var day = date.substr(8,2);
+			var result = year+"-"+month+"-"+day;
+			return result;
+		},
+		time : function(date){
+			var hour = date.substr(11, 2);
+			var minute = date.substr(14, 2);
+			var second = date.substr(17, 2);
+			
+			var result = hour+":"+minute+":"+second;
+			return result;
+		},
+		dateTime : function(date){
+			var result = fn_dateConverter.date(date)+" "+fn_dateConverter.time(date);
+			return result;
+		},
+		autoDate : function(date){
+			var today = Date.now();
+			var year = date.substr(0, 4);
+			var month = date.substr(5, 2);
+			var day = date.substr(8,2);
+			var d = new Date(year, month - 1, day);
+			if((today - d) > 1000*60*60*24){
+				return fn_dateConverter.date(date);
+			} else {
+				return fn_dateConverter.time(date);
+			}
+		}
+	}
+})();
+
+
+
 
 

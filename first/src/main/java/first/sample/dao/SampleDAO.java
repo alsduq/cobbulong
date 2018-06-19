@@ -13,8 +13,8 @@ public class SampleDAO extends AbstractDAO{
 	Logger log = Logger.getLogger(this.getClass());
 
 	@SuppressWarnings("unchecked")
-	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception{
-		return (List<Map<String, Object>>)selectList("sample.selectBoardList", map);
+	public List<List<Object>> selectBoardList(Map<String, Object> map) throws Exception{
+		return (List<List<Object>>)selectList("sample.selectBoardList", map);
 	}
 
 	public void insertBoard(Map<String, Object> map) throws Exception{
@@ -58,6 +58,10 @@ public class SampleDAO extends AbstractDAO{
 
 	public void deleteComment(Map<String, Object> map) {
 		update("sample.deleteComment", map);
+	}
+
+	public void updateComment(Map<String, Object> map) {
+		update("sample.updateComment", map);
 	}
 	
 

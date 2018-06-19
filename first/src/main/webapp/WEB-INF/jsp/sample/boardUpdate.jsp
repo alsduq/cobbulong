@@ -3,11 +3,11 @@
 <html lang="ko">
 <head>
 <%@ include file="/WEB-INF/include/include-header.jspf" %>
-</head>
-<body>
-	<div class="container">
-		<div class="col-md-10">
+	<%@ include file="/WEB-INF/include/include-side.jspf" %>
+
+		<div class="col-md-8">
 		<hr/>
+			<h2>게시글 상세</h2>
 			<form id="frm">
 				<table class="table table-condensed">
 					<colgroup>
@@ -16,7 +16,6 @@
 						<col width="15%"/>
 						<col width="35%"/>
 					</colgroup>
-					<caption>게시글 상세</caption>
 					<tbody>
 						<tr>
 							<th scope="row">글 번호</th>
@@ -52,6 +51,7 @@
 				<button href="#this" class="btn btn-default" id="update">저장</button>
 				<button href="#this" class="btn btn-default" id="delete">삭제</button>
 			</span>
+			<div class="col-md-2"></div>
 		</div>
 	
 	
