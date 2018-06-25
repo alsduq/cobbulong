@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
  
 @Component("fileUtils")
 public class FileUtils {
+	//var에 하는 이유 : 프로젝트에 path 설정시 war파일 재배포 및 업데이트 하면 저장된 파일도 삭제됨.
 	private static final String filePath = "/var/webapps/upload/";
 	Logger log = Logger.getLogger(this.getClass());
 

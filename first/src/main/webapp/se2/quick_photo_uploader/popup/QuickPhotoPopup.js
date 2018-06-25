@@ -335,18 +335,19 @@
     		sUploadURL;
     	
     	// sUploadURL= 'http://test.naver.com/popup/quick_photo/FileUploader_html5.php'; 	//upload URL
-    	sUploadURL= '/nse/nse_files/quick_photo_uploader/popup/FileUploader_html5.php'; 	//upload URL
-
+    	sUploadURL= '/first/sample/fileUploaderHtml5.do'; 	//upload URL
+    	
     	//파일을 하나씩 보내고, 결과를 받음.
     	for(var j=0, k=0; j < nImageInfoCnt; j++) {
     		tempFile = htImageInfo['img'+j];
+    		console.log("tempFile : " + tempFile);
     		try{
 	    		if(!!tempFile){
 	    			//Ajax통신하는 부분. 파일과 업로더할 url을 전달한다.
 	    			callAjaxForHTML5(tempFile,sUploadURL);
 	    			k += 1;
 	    		}
-	    	}catch(e){}
+	    	}catch(e){console.log("에러났다");}
     		tempFile = null;
     	}
 
@@ -360,6 +361,7 @@
 			type: 'xhr',
 			method : "post",
 			onload : function(res){ // 요청이 완료되면 실행될 콜백 함수
+				console.log("성공");
 				if (res.readyState() == 4) {
 					//성공 시에  responseText를 가지고 array로 만드는 부분.
 					makeArrayFromString(res._response.responseText);
@@ -457,7 +459,7 @@
 	 * @return
 	 */
 	function onAjaxError (){
-		alert("[가이드]사진 업로더할 서버URL셋팅이 필요합니다.-onAjaxError"); //설치 가이드 안내 문구임. 실 서비스에서는 삭제. 
+		//alert("[가이드]사진 업로더할 서버URL셋팅이 필요합니다.-onAjaxError"); //설치 가이드 안내 문구임. 실 서비스에서는 삭제. 
 	}
 
  	/**
@@ -477,8 +479,8 @@
  	 */
  	function callFileUploader (){
  		oFileUploader = new jindo.FileUploader(jindo.$("uploadInputBox"),{
- 			sUrl  : 'http://test.naver.com/Official-trunk/workspace/popup/quick_photo/FileUploader.php',	//샘플 URL입니다.
- 	        sCallback : location.href.replace(/\/[^\/]*$/, '') + '/callback.html',	//업로드 이후에 iframe이 redirect될 콜백페이지의 주소
+ 			sUrl  : '/first/sample/photoUpload.do',	//샘플 URL입니다.
+ 	        sCallback : '/se2/quick_photo_uploader/popup/callback.html',	//업로드 이후에 iframe이 redirect될 콜백페이지의 주소
  	    	sFiletype : "*.jpg;*.png;*.bmp;*.gif",						//허용할 파일의 형식. ex) "*", "*.*", "*.jpg", 구분자(;)	
  	    	sMsgNotAllowedExt : 'JPG, GIF, PNG, BMP 확장자만 가능합니다',	//허용할 파일의 형식이 아닌경우에 띄워주는 경고창의 문구
  	    	bAutoUpload : false,									 	//파일이 선택됨과 동시에 자동으로 업로드를 수행할지 여부 (upload 메소드 수행)
@@ -539,12 +541,11 @@ console.log(1);
 	   	if(bSupportDragAndDropAPI){
 	   		removeEvent();
 	   	}
-	 //  	window.close();
+	   	window.close();
     }
     
 	window.onload = function(){
   		checkDragAndDropAPI();
-  		
   		
   		if(bSupportDragAndDropAPI){
   			$Element("pop_container2").hide();

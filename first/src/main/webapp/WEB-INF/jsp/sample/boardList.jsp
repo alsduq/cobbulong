@@ -42,7 +42,7 @@
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="4">조회된 결과가 없습니다.</td>
+								<td colspan="5"></td>
 							</tr>
 						</c:otherwise>
 					</c:choose>
@@ -126,7 +126,6 @@
 
 			$(".pagination").children().children("a").on("click", function(e){
 				e.preventDefault();
-				console.log("페이지번호클릭");
 				fn_openBoardList($(this));
 			});
 

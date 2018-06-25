@@ -62,20 +62,24 @@ public class SampleServiceImpl implements SampleService{
  
     @Override
     public List<Object>/*Map<String, Object>*/ selectBoardDetail(Map<String, Object> map) throws Exception {
+    	//조회수 증가
         sampleDAO.updateHitCnt(map);
+        
 //        Map<String, Object> resultMap = new HashMap<String, Object>();
         List<Object> result = new ArrayList<Object>();
-        Map<String, Object> tmpMap = sampleDAO.selectBoardDetail(map);
-        String tmpContents = String.valueOf(tmpMap.get("contents"));
-        tmpContents = tmpContents.replace("\r\n", "<br>");
-        tmpContents = tmpContents.replace("\u0020", "&nbsp;");
-        
-        tmpMap.put("contents", tmpContents);
+//        Map<String, Object> tmpMap = sampleDAO.selectBoardDetail(map);
+//        String tmpContents = String.valueOf(tmpMap.get("contents"));
+//        tmpContents = tmpContents.replace("\r\n", "<br>");
+//        tmpContents = tmpContents.replace("\u0020", "&nbsp;");
+//        
+//        tmpMap.put("contents", tmpContents);
 //        resultMap.put("map", tmpMap);
-        result.add(tmpMap);
-        List<Map<String,Object>> list = sampleDAO.selectFileList(map);
+//        result.add(tmpMap);
+//        List<Map<String,Object>> list = sampleDAO.selectFileList(map);
 //        resultMap.put("list", list);
-        result.add(list);
+//        result.add(list);
+        result.add(sampleDAO.selectBoardDetail(map));
+        result.add(sampleDAO.selectFileList(map));
         return result;
     }
  

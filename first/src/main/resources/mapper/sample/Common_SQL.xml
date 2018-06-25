@@ -10,7 +10,7 @@
 	        FROM
 	            tb_file
 	        WHERE
-	            idx = #{idx}
+	            board_idx = #{idx}
 	    ]]>
 	</select>
 </mapper>

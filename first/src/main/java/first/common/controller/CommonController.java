@@ -27,9 +27,7 @@ public class CommonController {
         Map<String,Object> map = commonService.selectFileInfo(commandMap.getMap());
         String storedFileName = (String)map.get("stored_file_name");
         String originalFileName = (String)map.get("original_file_name");
-        log.debug(storedFileName);
         byte fileByte[] = FileUtils.readFileToByteArray(new File("/var/webapps/upload/"+storedFileName));
-         
         response.setContentType("application/octet-stream");
         response.setContentLength(fileByte.length);
         response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(originalFileName,"UTF-8")+"\";");

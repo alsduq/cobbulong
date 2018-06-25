@@ -7,7 +7,7 @@
 
 		<div class="col-md-8">
 		<hr/>
-			<h2>게시글 상세</h2>
+			<h2>게시글 수정</h2>
 			<form id="frm">
 				<table class="table table-condensed">
 					<colgroup>
@@ -59,7 +59,15 @@
 	<%@ include file="/WEB-INF/include/include-body.jspf" %>
 	<script type="text/javascript">
 		var board_idx = "${map.idx}";
+		var oEditors = [];
 		$(document).ready(function(){
+			nhn.husky.EZCreator.createInIFrame({
+			    oAppRef: oEditors,
+			    elPlaceHolder: "contents",
+			    sSkinURI: "<c:url value='/se2/SmartEditor2Skin.html'/>",
+			    fCreator: "createSEditor2"
+			});
+			
 			$("#list").on("click", function(e){ //목록으로 버튼
 				e.preventDefault();
 				fn_openBoardList();
@@ -67,6 +75,10 @@
 			
 			$("#update").on("click", function(e){ //저장하기 버튼
 				e.preventDefault();
+				if($('#title').val() == null || $('#title').val() == ""){
+					alert("제목을 입력해 주세요.");
+					return;
+				}
 				fn_updateBoard();
 			});
 			
@@ -84,6 +96,7 @@
 		
 		function fn_updateBoard(){
 			var comSubmit = new ComSubmit("frm");
+			oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
 			comSubmit.setUrl("<c:url value='/sample/updateBoard.do' />");
 			comSubmit.submit();
 		}
@@ -95,5 +108,6 @@
 			comSubmit.submit();
 		}
 	</script>
+	<script type="text/javascript" src="<c:url value='/se2/js/service/HuskyEZCreator.js'/>" charset="utf-8"></script>
 </body>
 </html>

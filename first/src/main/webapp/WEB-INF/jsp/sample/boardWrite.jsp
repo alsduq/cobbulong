@@ -17,7 +17,7 @@
 					<tbody>
 						<tr>
 							<th scope="row">제목</th>
-							<td><input type="text" id="title" name="title" class="wdp_90"></input></td>
+							<td><input type="text" id="title" name="title" class="wdp_90" required></input></td>
 						</tr>
 						<tr>
 							<td colspan="2" class="view_text">
@@ -57,8 +57,11 @@
 				});
 				
 				$("#write").on("click", function(e){ //작성하기 버튼
-					console.log("write");
 					e.preventDefault();
+					if($('#title').val() == null || $('#title').val() == ""){
+						alert("제목을 입력해 주세요.");
+						return;
+					}
 					fn_insertBoard();
 				});
 			});
