@@ -43,6 +43,7 @@ public class MemberDAO extends AbstractDAO{
 		update("member.updatePassword", map);
 	}
 
+
 	
 
 }

@@ -106,9 +106,29 @@ public class MemberServiceImpl implements MemberService{
 			
 			String recipient = (String) map.get("inputEmail");
 			String subject = "코뿌롱 임시 비밀번호";
-			String body = "임시 비밀번호가 발급되었습니다.<br>["+ tmpPassword +"]<br>로그인 하신 후 비밀번호를 변경해 주세요.";
+			String body = "임시 비밀번호가 발급되었습니다.\n\r["+ tmpPassword +"]\n\r로그인 하신 후 비밀번호를 변경해 주세요.";
 			mailUtils.sendMail(recipient, subject, body);
 			return new Result(true, "임시 비밀번호가 전송되었습니다.");
+		}
+	}
+
+	@Override
+	public Result changePassword(Map<String, Object> map) {
+		Map<String, Object> tmpMap = map;
+		tmpMap.put("inputPassword", map.get("inputBeforePassword"));
+		String passwordHashed = memberDAO.logIn(tmpMap);
+		boolean result = false;
+		try {
+			result = BCrypt.checkpw((String) tmpMap.get("inputPassword"), passwordHashed);
+			if(result) {
+				tmpMap.put("inputPassword", map.get("inputPassword2"));
+				passwordUtils.changePassword(tmpMap);
+				return new Result(true, "비밀번호가 변경되었습니다.");
+			}else {
+				return new Result(false, "아이디 또는 비밀번호가 틀렸습니다.");
+			}
+		} catch (NullPointerException e){
+			return new Result(false, "비밀번호 변경 도 중 알 수 없는 오류가 발생하였습니다.");
 		}
 	}
 

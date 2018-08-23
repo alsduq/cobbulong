@@ -82,4 +82,14 @@ public class MemberController {
 		return memberService.authNoCheck(commandMap.getMap());
 	}
 		
+	@RequestMapping(value="/member/openChangePassword.do")
+    public ModelAndView openChangePassword() throws Exception{
+		ModelAndView mv = new ModelAndView("/member/changePassword");
+    	return mv;
+	}
+	
+	@RequestMapping(value="/member/changePassword.do")
+    public @ResponseBody Result changePassword(CommandMap commandMap) throws Exception{
+		return memberService.changePassword(commandMap.getMap());
+	}
 }

@@ -16,6 +16,7 @@
 				<div class="input-group">
 					<input type="text" class="form-control" id="inputAuthNo" name="inputAuthNo" placeholder="인증번호" value="">
 					<input type="hidden" class="form-control" id="inputEmail" name="inputEmail" value="">
+					<input type="hidden" class="form-control" id="inputId" name="inputId" value="">
 					<span class="input-group-btn"><button class="btn btn-default" type="button" id="checkAuthNo">확인</button></span>
 				</div>
 				<p class="help-block">인증번호가 일치하면 이메일로 임시 비밀번호가 전송 됩니다. 로그인 후 비밀번호를 변경 해 주세요.</p>
@@ -34,6 +35,7 @@
 				return false;
 			}
 			$('#inputEmail').val(opener.document.getElementById("inputEmail2").value);
+			$('#inputId').val(opener.document.getElementById("inputId").value);
 			var insertData = $('#authNoCheckForm').serialize();
 			fn_authNoCheck(insertData);					
 		});

@@ -22,4 +22,6 @@ public interface MemberService {
 
 	Result authNoCheck(Map<String, Object> map) throws AddressException, MessagingException;
 
+	Result changePassword(Map<String, Object> map);
+
 }

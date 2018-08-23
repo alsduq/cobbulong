@@ -52,7 +52,8 @@
 	
 	<update id="updateAuthNo" parameterType="hashmap">
 		<![CDATA[
-			UPDATE tb_member
+			UPDATE 
+				tb_member
 			SET
 				auth_no = #{authNum}
 			WHERE
@@ -73,11 +74,12 @@
 	
 	<update id="updatePassword" parameterType="hashmap">
 		<![CDATA[
-			UPDATE tb_member
+			UPDATE 
+				tb_member
 			SET
 				password = #{inputPassword}
 			WHERE
-				email = #{inputEmail} AND del_gb = 'N'
+				id = #{inputId} AND del_gb = 'N'
 		]]>
 	</update>
 	
