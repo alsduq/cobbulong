@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import first.common.common.CommandMap;
+import first.member.dto.FindIdResult;
+import first.member.dto.Result;
 import first.member.service.MemberService;
 
 @Controller
@@ -30,9 +32,8 @@ public class MemberController {
 	}	
 
 	@RequestMapping(value="/member/signUp.do")
-    public @ResponseBody int signUp(CommandMap commandMap) throws Exception{
-		int result = memberService.insertMember(commandMap.getMap());
-		return result;
+    public @ResponseBody Result signUp(CommandMap commandMap) throws Exception{
+		return memberService.insertMember(commandMap.getMap());
 	}	
 	
 	@RequestMapping(value="/member/openLogIn.do")
@@ -46,4 +47,39 @@ public class MemberController {
 		boolean result = memberService.logIn(commandMap.getMap());
 		return result;
 	}	
+	
+	@RequestMapping(value="/member/openFindIdPw.do")
+    public ModelAndView openFindIdPw(CommandMap commandMap) throws Exception{
+    	ModelAndView mv = new ModelAndView("/member/findIdPw");
+    	return mv;
+    }
+	
+	@RequestMapping(value="/member/findId.do")
+    public @ResponseBody FindIdResult findId(CommandMap commandMap) throws Exception{
+		return memberService.findId(commandMap.getMap());
+	}	
+		
+	@RequestMapping(value="/member/openFindIdResult.do")
+    public ModelAndView openFindIdResult() throws Exception{
+		ModelAndView mv = new ModelAndView("/member/findIdResult");
+    	return mv;
+	}	
+	
+	@RequestMapping(value="/member/sendAuthNo.do")
+    public @ResponseBody Result sendAuthNo(CommandMap commandMap) throws Exception{
+		return memberService.sendAuthNo(commandMap.getMap());
+	}
+	
+	@RequestMapping(value="/member/emailAuth.do")
+    public ModelAndView emailAuth() throws Exception{
+		ModelAndView mv = new ModelAndView("/member/emailAuth");
+    	return mv;
+	}	
+	
+		
+	@RequestMapping(value="/member/authNoCheck.do")
+    public @ResponseBody Result authNoCheck(CommandMap commandMap) throws Exception{
+		return memberService.authNoCheck(commandMap.getMap());
+	}
+		
 }

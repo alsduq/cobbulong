@@ -13,28 +13,9 @@
 	    ]]>
 	</select>
 	
-	<insert id="insertMember" parameterType="hashmap" useGeneratedKeys="true" keyProperty="idx">
-		<![CDATA[
-			INSERT INTO tb_member
-			(
-				id,
-			    email, 
-			    password, 
-			    name, 
-			    crea_dtm, 
-			    del_gb 
-			)
-			VALUES
-			(
-				#{inputId},
-			    #{inputEmail}, 
-			    #{inputPassword1}, 
-			    #{inputName}, 
-			    now(), 
-			    'N'
-			)
-		]]>
-	</insert>
+	<select id="insertMember" parameterType="hashmap" resultType="int">
+			{ CALL study.SP_INSERT_MEMBER(#{inputId}, #{inputEmail}, #{inputPassword1}, #{inputName}, @O_Result)}
+	</select>
 	
 	<select id="logIn" parameterType="hashmap" resultType="string">
 	    <![CDATA[
@@ -46,4 +27,59 @@
 	            id = #{inputId} AND del_gb = 'N'
 	    ]]>
 	</select>
+	
+	<select id="findId" parameterType="hashmap" resultType="string">
+		<![CDATA[
+	       SELECT
+	           id
+	       FROM
+	           tb_member
+	       WHERE
+	           email = #{inputEmail} AND del_gb = 'N'
+	    ]]>
+	</select>
+	
+	<select id="confirmAccount" parameterType="hashmap" resultType="int">
+		<![CDATA[
+	       SELECT
+	           count(*)
+	       FROM
+	           tb_member
+	       WHERE
+	           id = #{inputId} AND email = #{inputEmail2} AND del_gb = 'N'
+	    ]]>
+	</select>
+	
+	<update id="updateAuthNo" parameterType="hashmap">
+		<![CDATA[
+			UPDATE tb_member
+			SET
+				auth_no = #{authNum}
+			WHERE
+				email = #{inputEmail2}	
+		]]>
+	</update>
+	
+	<select id="selectAuthNo" parameterType="hashmap" resultType="int">
+		<![CDATA[
+	       SELECT
+	           count(*)
+	       FROM
+	           tb_member
+	       WHERE
+	           email = #{inputEmail} AND auth_no = #{inputAuthNo} AND del_gb = 'N'
+	    ]]>
+	</select>
+	
+	<update id="updatePassword" parameterType="hashmap">
+		<![CDATA[
+			UPDATE tb_member
+			SET
+				password = #{inputPassword}
+			WHERE
+				email = #{inputEmail} AND del_gb = 'N'
+		]]>
+	</update>
+	
+	
 </mapper>

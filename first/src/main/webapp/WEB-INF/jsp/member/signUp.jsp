@@ -149,9 +149,12 @@
 				type:'post',
 				data:insertData,
 				success:function(data){
-					if(data > 0) {
-						alert("회원가입 완료");
+					if(data.isSuccess) {
+						alert(data.msg);
 						window.location.href = "/first/member/openLogIn.do";
+					}else{
+						alert(data.msg);
+						return false;
 					}
 				}
 

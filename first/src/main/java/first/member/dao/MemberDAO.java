@@ -16,11 +16,31 @@ public class MemberDAO extends AbstractDAO{
 	}
 
 	public int insertMember(Map<String, Object> map) {
-		return (int) insert("member.insertMember", map);
+		return (int) selectOne("member.insertMember", map);
 	}
 
 	public String logIn(Map<String, Object> map) {
 		return (String) selectOne("member.logIn", map);
+	}
+
+	public String findId(Map<String, Object> map) {
+		return (String) selectOne("member.findId", map);
+	}
+
+	public int confirmAccount(Map<String, Object> map) {
+		return (int) selectOne("member.confirmAccount", map);
+	}
+
+	public void updateAuthNo(Map<String, Object> map) {
+		update("member.updateAuthNo", map);
+	}
+
+	public int authNoCheck(Map<String, Object> map) {
+		return (int) selectOne("member.selectAuthNo", map);
+	}
+
+	public void updatePassword(Map<String, Object> map) {
+		update("member.updatePassword", map);
 	}
 
 	

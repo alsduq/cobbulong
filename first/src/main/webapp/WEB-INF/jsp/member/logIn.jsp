@@ -18,11 +18,14 @@
 						<input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="비밀번호">
 					</div>
 					<div class="form-group text-center">
-						<button id="logIn" type="submit" class="btn btn-primary">
+						<button id="logIn" type="submit" class="btn btn-success">
 							로그인<i class="fa fa-check spaceLeft"></i>
 						</button>
 						<button id="signUp" type="submit" class="btn btn-info">
 							회원가입<i class="fa fa-times spaceLeft"></i>
+						</button>
+						<button id="findIdPw" type="submit" class="btn btn-primary">
+							아아디/비밀번호 찾기<i class="fa fa-times spaceLeft"></i>
 						</button>
 					</div>
 				</form>
@@ -47,6 +50,13 @@
 				e.preventDefault();
 				var insertData = $('#logInForm').serialize();
 				fn_logIn(insertData);
+			});
+
+			$('#findIdPw').on('click', function(e){
+				e.preventDefault();
+				var comSubmit = new ComSubmit();
+				comSubmit.setUrl("<c:url value='/member/openFindIdPw.do' />");
+				comSubmit.submit();
 			});
 
 			function fn_logIn(insertData){

@@ -59,7 +59,7 @@
 					<li><a href="#this" aria-label="Previous">&laquo;</a></li>
 					<c:choose>
 						<c:when test="${pageIdx <= 4}">
-							<c:forEach var="i" begin="1" end="9">
+							<c:forEach var="i" begin="1" end="${pageIdx}">
 								<c:choose>
 									<c:when test="${pageIdx == i}">
 										<li><a href="#this" style="color:red;">${i}</a></li>

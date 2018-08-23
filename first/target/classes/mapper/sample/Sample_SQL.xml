@@ -9,22 +9,6 @@
 			{ CALL study.SP_BOARDLIST_GET(#{page_idx}, 10, @O_TotalCount, @O_PageIndex)}
 	</select>
 	
-	<!-- <select id="selectBoardList" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
-			SELECT
-			    idx,
-			    title,
-			    hit_cnt,
-			    crea_dtm
-			FROM
-			    tb_board
-			WHERE
-				del_gb = 'N'    
-			ORDER BY idx DESC
-			LIMIT 0, 10;
-		]]>
-	</select> -->
-	
 	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="idx">
 		<![CDATA[
 			INSERT INTO tb_board
