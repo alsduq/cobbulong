@@ -118,6 +118,9 @@
 	     	$('#crea_dtm').text(fn_dateConverter.dateTime("${map.crea_dtm}"));
 
 	     	$('[name=commentInsertBtn]').click(function(){
+		     	if(myId == null){
+					return false;
+			     }
 		     	$('[name=crea_id]').val(myId);
 				var insertData = $('[name=commentInsertForm]').serialize();
 				commentInsert(insertData);
@@ -131,6 +134,10 @@
 				$('#delete').remove();
 				$('#update').remove();
 			} 
+
+			if(myId == null){
+				$('#contents').attr("placeholder","로그인 후 댓글 등록이 가능합니다.");
+			}
 		});
 
 
