@@ -58,7 +58,7 @@
 			      	<li id="logInPage"><a href="/first/member/openLogIn.do">로그인</a></li>
 			        <li id="signUpPage"><a href="/first/member/openSignUp.do">회원가입</a></li>
 			        <li id="logOutPage"><a href="#this">로그아웃</a></li>
-			        <li class="dropdown">
+			        <li class="dropdown" id="myPage">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">마이페이지 <span class="caret"></span></a>
 			          <ul class="dropdown-menu" role="menu">
 			            <li><a href="#">내정보</a></li>
@@ -80,6 +80,7 @@
 			var myId = sessionStorage.getItem("myId");
 			if(myId == "" || myId == null){
 				$('#logOutPage').remove();
+				$('#myPage').remove();
 			} else {
 				$('#logInPage').remove();
 				$('#signUpPage').remove();

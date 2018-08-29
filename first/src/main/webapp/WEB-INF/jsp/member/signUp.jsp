@@ -65,12 +65,12 @@
 			$("#inputId").keyup(function(){
 				var id = $("#inputId").val();
 				idCheckFlag = false;
-				$("#inputId").css("border", "2px solid red");
 				if(regexId.test(id)) {
 					idFlag=true;
+					$("#inputId").css("border", "2px solid lightgreen");
 				} else {
-					$("#inputId").css("border", "2px solid red");
 					idFlag=false;
+					$("#inputId").css("border", "2px solid red");
 				}
 			});
 			
@@ -128,7 +128,7 @@
 				} else if(emailFlag == false) {
 					alert("이메일 주소를 형식에 맞게 입력해 주세요.");
 				} else if(pwFlag1 == false) {
-					alert("패스워드를 형식에 맞게 입력해 주세요.");
+					alert("비밀번호를 형식에 맞게 입력해 주세요.");
 				} else if(pwFlag2 == false) {
 					alert("비밀번호가 일치하지 않습니다.");
 				} else {
@@ -177,13 +177,17 @@
 					if(data == 0){
 						alert("사용 가능한 아이디 입니다.");
 						idCheckFlag = true;
-						$("#inputId").css("border", "2px solid lightgreen");
 					} else {
 						alert("이미 사용중인 아이디 입니다.");
 						idCheckFlag = false;
 					}
 				}
 			});
+			if(idCheckFlag && idFlag){
+				$("#inputId").css("border", "2px solid lightgreen");
+			}else{
+				$("#inputId").css("border", "2px solid red");
+			}
 		}
 	</script>	
 </body>

@@ -20,6 +20,7 @@
 					<div class="form-group">
 						<label for="inputPassword">새 비밀번호</label> 
 						<input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="새 비밀번호">
+						<p class="help-block">숫자, 영문 대소문자, 특수문자 포함 8~20자리</p>
 					</div>
 					<div class="form-group">
 						<label for="inputPassword2">새 비밀번호 확인</label> 
@@ -64,6 +65,14 @@
 				}
 				if($('#inputPassword2').val() == null || $('#inputPassword2').val() == "undefine" || $('#inputPassword2').val() == "null" || $('#inputPassword2').val() == ""){
 					alert("새 비밀번호를 한번 더 입력 해 주세요.");
+					return false;
+				}
+				if(!pwFlag1){
+					alert("새 비밀번호를 형식에 맞게 입력해 주세요.");
+					return false;
+				}
+				if(!pwFlag2){
+					alert("새 비밀번호가 일치하지 않습니다.");
 					return false;
 				}
 				

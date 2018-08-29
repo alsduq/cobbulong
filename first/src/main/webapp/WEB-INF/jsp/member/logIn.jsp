@@ -18,9 +18,14 @@
 						<input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="비밀번호">
 					</div>
 					<div class="form-group text-center">
+						<label class="checkbox-inline">
+						  <input type="checkbox" id="saveIdCheck" value="saveIdCheck"> 아이디 저장
+						</label>
 						<button id="logIn" type="submit" class="btn btn-success">
 							로그인<i class="fa fa-check spaceLeft"></i>
 						</button>
+					</div>	
+					<div class="form-group text-center">	
 						<button id="signUp" type="submit" class="btn btn-info">
 							회원가입<i class="fa fa-times spaceLeft"></i>
 						</button>
@@ -38,7 +43,12 @@
 	<%@ include file="/WEB-INF/include/include-body.jspf" %>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			console.log("레뒤");
+			var saveId = getCookie("saveId"); 
+			if(saveId != null){
+				$('#inputId').val(saveId);
+				$('#saveIdCheck').attr("checked",true);
+			}
+
 			$('#signUp').on('click', function(e){
 				e.preventDefault();
 				var comSubmit = new ComSubmit();
@@ -67,6 +77,11 @@
 					success:function(data){
 						if(data){
 							sessionStorage.setItem('myId', $('#inputId').val());
+							if($('#saveIdCheck').prop("checked")){
+								setCookie("saveId", $('#inputId').val(), 30);
+							}else{
+								setCookie("saveId", "", 0);
+							}
 							window.location.href = "/first/sample/openBoardList.do";
 						} else {
 							alert("아이디 또는 비밀번호가 틀렸습니다.");
