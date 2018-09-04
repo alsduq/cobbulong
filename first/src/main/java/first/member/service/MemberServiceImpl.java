@@ -36,6 +36,9 @@ public class MemberServiceImpl implements MemberService{
 	@Resource(name="passwordUtils")
 	private PasswordUtils passwordUtils;
 	
+	@Resource(name="user")
+	private User user;
+	
 	@Override
 	public int idCheck(Map<String, Object> map) throws Exception {
 		return memberDAO.selectId(map);
@@ -82,7 +85,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Result logOut(Map<String, Object> map, HttpSession session, HttpServletRequest request) {
+	public Result logOut(Map<String, Object> map, HttpSession session, HttpServletRequest request){
 		try {
 //			map.put("inputId", "alsduq2813");
 //			memberDAO.updateLogOutLog(map);
