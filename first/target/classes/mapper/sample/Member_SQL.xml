@@ -83,5 +83,24 @@
 		]]>
 	</update>
 	
+	<select id="insertLoginLog" parameterType="hashmap" resultType="int">
+		{ CALL study.SP_INSERT_LOGIN_LOG(#{inputId}, #{userIp}, @O_Result)}
+	</select>
+	
+	<update id="updateLogOutLog" parameterType="hashmap">
+		<![CDATA[
+			UPDATE 
+				tb_login_log
+			SET
+				logout_dtm = now()
+			WHERE
+				user_id = #{inputId} AND idx = (
+					SELECT idx FROM (
+						SELECT idx FROM tb_login_log WHERE user_id = #{inputId} ORDER BY idx DESC LIMIT 1
+					) 
+				tmp)
+		]]>
+	</update>
+	
 	
 </mapper>

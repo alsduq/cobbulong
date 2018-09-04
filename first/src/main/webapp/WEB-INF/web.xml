@@ -25,6 +25,10 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  
+  <listener>
+  	<listener-class>first.common.session.User</listener-class>
+  </listener>
    
 	<servlet>
 		<servlet-name>action</servlet-name>

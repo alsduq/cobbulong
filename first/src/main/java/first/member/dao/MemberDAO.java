@@ -43,6 +43,14 @@ public class MemberDAO extends AbstractDAO{
 		update("member.updatePassword", map);
 	}
 
+	public int insertLoginLog(Map<String, Object> map) {
+		return (int) selectOne("member.insertLoginLog", map);
+	}
+
+	public void updateLogOutLog(Map<String, Object> map) {
+		update("member.updateLogOutLog", map);
+	}
+
 
 	
 

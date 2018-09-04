@@ -1,6 +1,6 @@
-package first.member.dto;
+package first.common.common;
 
-public class Result {
+public class Result{
 	private boolean isSuccess;
 	private String msg;
 	private String data;

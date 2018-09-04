@@ -58,6 +58,14 @@
 
 			$('#logIn').on('click', function(e){
 				e.preventDefault();
+				if($('#inputId').val() == null || $('#inputId').val() == ""){
+					alert("아이디를 입력 해 주세요.");
+					return false;
+				}
+				if($('#inputPassword').val() == null || $('#inputPassword').val() == ""){
+					alert("비밀번호를 입력 해 주세요.");
+					return false;
+				}
 				var insertData = $('#logInForm').serialize();
 				fn_logIn(insertData);
 			});
@@ -75,7 +83,8 @@
 					type:'post',
 					data:insertData,
 					success:function(data){
-						if(data){
+							console.log(data);
+						if(data.isSuccess){
 							sessionStorage.setItem('myId', $('#inputId').val());
 							if($('#saveIdCheck').prop("checked")){
 								setCookie("saveId", $('#inputId').val(), 30);
@@ -84,7 +93,7 @@
 							}
 							window.location.href = "/first/sample/openBoardList.do";
 						} else {
-							alert("아이디 또는 비밀번호가 틀렸습니다.");
+							alert(data.msg);
 						}
 					}
 				});

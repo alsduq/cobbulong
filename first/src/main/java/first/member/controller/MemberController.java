@@ -1,6 +1,8 @@
 package first.member.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -9,8 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import first.common.common.CommandMap;
+import first.common.common.Result;
 import first.member.dto.FindIdResult;
-import first.member.dto.Result;
 import first.member.service.MemberService;
 
 @Controller
@@ -43,10 +45,14 @@ public class MemberController {
     }
 	
 	@RequestMapping(value="/member/logIn.do")
-    public @ResponseBody boolean logIn(CommandMap commandMap) throws Exception{
-		boolean result = memberService.logIn(commandMap.getMap());
-		return result;
+    public @ResponseBody Result logIn(CommandMap commandMap, HttpSession session, HttpServletRequest request) throws Exception{
+		return memberService.logIn(commandMap.getMap(), session, request);
 	}	
+	
+	@RequestMapping(value="/member/logOut.do")
+    public @ResponseBody Result logOut(CommandMap commandMap, HttpSession session, HttpServletRequest request){
+		return memberService.logOut(commandMap.getMap(), session, request);
+	}
 	
 	@RequestMapping(value="/member/openFindIdPw.do")
     public ModelAndView openFindIdPw(CommandMap commandMap) throws Exception{

@@ -4,9 +4,11 @@ import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import first.common.common.Result;
 import first.member.dto.FindIdResult;
-import first.member.dto.Result;
 
 public interface MemberService {
 
@@ -14,7 +16,7 @@ public interface MemberService {
 
 	Result insertMember(Map<String, Object> map) throws Exception;
 
-	boolean logIn(Map<String, Object> map) throws Exception;
+	Result logIn(Map<String, Object> map, HttpSession session, HttpServletRequest request) throws Exception;
 
 	FindIdResult findId(Map<String, Object> map);
 
@@ -23,5 +25,7 @@ public interface MemberService {
 	Result authNoCheck(Map<String, Object> map) throws AddressException, MessagingException;
 
 	Result changePassword(Map<String, Object> map);
+
+	Result logOut(Map<String, Object> map, HttpSession session, HttpServletRequest request);
 
 }

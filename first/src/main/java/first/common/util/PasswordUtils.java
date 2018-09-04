@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
+import first.common.common.Result;
 import first.member.dao.MemberDAO;
-import first.member.dto.Result;
  
 @Component("passwordUtils")
 public class PasswordUtils {

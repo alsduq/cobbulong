@@ -1,21 +1,27 @@
 package first.member.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import first.common.common.Result;
+import first.common.session.User;
+import first.common.session.Users;
 import first.common.util.CommonUtils;
+import first.common.util.IPTraceUtils;
 import first.common.util.MailUtils;
 import first.common.util.PasswordUtils;
 import first.member.dao.MemberDAO;
 import first.member.dto.FindIdResult;
-import first.member.dto.Result;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService{
@@ -51,15 +57,43 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public boolean logIn(Map<String, Object> map)  throws Exception {
+	public Result logIn(Map<String, Object> map, HttpSession session, HttpServletRequest request)  throws Exception {
 		String passwordHashed = memberDAO.logIn(map);
+		String userId = (String)map.get("inputId");
 		try {
-			return BCrypt.checkpw((String) map.get("inputPassword"), passwordHashed);
+			if(BCrypt.checkpw((String) map.get("inputPassword"), passwordHashed)) {
+				map.put("userIp", IPTraceUtils.getRemoteAddr(request));
+				memberDAO.insertLoginLog(map);
+				User exists = Users.getUser(userId);
+				if(exists != null && !session.getId().equals(exists.getSessionId())) {
+					exists.getSession().invalidate();
+					return new Result(true, "이미 로그인 중입니다. 강제 로그아웃 후 로그인 됩니다.");
+				}else {
+					User user = new User(userId);
+					session.setAttribute("user",  user);
+					return new Result(true, "로그인 성공.");
+				}
+			}
+			return new Result(false, "아이디 또는 비밀번호가 틀렸습니다.");
 		} catch (NullPointerException e){
-			return false;
+			e.printStackTrace();
+			return new Result(false, "로그인 도 중 알 수 없는 에러가 발생하였습니다.");
 		}
 	}
 
+	@Override
+	public Result logOut(Map<String, Object> map, HttpSession session, HttpServletRequest request) {
+		try {
+//			map.put("inputId", "alsduq2813");
+//			memberDAO.updateLogOutLog(map);
+			session.removeAttribute("user");
+			return new Result(false, "로그아웃.");
+		} catch (NullPointerException e){
+			e.printStackTrace();
+			return new Result(false, "로그아웃 도 중 알 수 없는 에러가 발생하였습니다.");
+		}
+	}
+	
 	@Override
 	public FindIdResult findId(Map<String, Object> map) {
 		String id = memberDAO.findId(map);
@@ -131,5 +165,18 @@ public class MemberServiceImpl implements MemberService{
 			return new Result(false, "비밀번호 변경 도 중 알 수 없는 오류가 발생하였습니다.");
 		}
 	}
+	
+	public void updateLogoutLog(String id) {
+		try {
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("inputId", "alsduq2813");
+			memberDAO.updateLogOutLog(map);
+		}catch(Exception e) {
+			logger.error("updateLogoutLog -> 로그아웃 로그 업데이트 중 에러 발생.");
+			e.printStackTrace();
+		}
+	}
+
+	
 
 }

@@ -88,9 +88,25 @@
 	
 			$('#logOutPage').on('click', function(e){
 				e.preventDefault();
-				sessionStorage.removeItem('myId');
-				window.location.href="/first/member/openLogIn.do";
+				fn_logOut(myId);
 			});
+
+			function fn_logOut(insertData){
+				$.ajax({
+					url:'/first/member/logOut.do',
+					type:'post',
+					data:insertData,
+					success:function(data){
+						if(data){
+							sessionStorage.removeItem('myId');
+							window.location.href="/first/member/openLogIn.do";
+						} else {
+							alert(data.msg);
+						}
+					}
+				});
+			}
+			
 		});
 	})(jQuery);
 </script>
