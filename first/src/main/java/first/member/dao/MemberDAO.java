@@ -3,11 +3,12 @@ package first.member.dao;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import first.common.dao.AbstractDAO;
 
-@Repository("memberDAO")
+//@Repository("memberDAO")
+@Component("memberDAO")
 public class MemberDAO extends AbstractDAO{
 	Logger log = Logger.getLogger(this.getClass());
 

@@ -77,11 +77,14 @@
 <script type="text/javascript">
 	(function($) {
 		$(document).ready(function(){
-			var myId = sessionStorage.getItem("myId");
-			if(myId == "" || myId == null){
+			var myId = "<%=session.getAttribute("myId")%>";
+			console.log(myId);
+			if(myId == "" || myId == null || myId == "null"){
+				console.log("1");
 				$('#logOutPage').remove();
 				$('#myPage').remove();
 			} else {
+				console.log("2");
 				$('#logInPage').remove();
 				$('#signUpPage').remove();
 			}

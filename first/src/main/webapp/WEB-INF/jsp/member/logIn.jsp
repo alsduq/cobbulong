@@ -83,9 +83,8 @@
 					type:'post',
 					data:insertData,
 					success:function(data){
-							console.log(data);
 						if(data.isSuccess){
-							sessionStorage.setItem('myId', $('#inputId').val());
+							alert(data.msg);
 							if($('#saveIdCheck').prop("checked")){
 								setCookie("saveId", $('#inputId').val(), 30);
 							}else{

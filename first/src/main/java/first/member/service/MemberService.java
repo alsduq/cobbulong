@@ -27,5 +27,7 @@ public interface MemberService {
 	Result changePassword(Map<String, Object> map);
 
 	Result logOut(Map<String, Object> map, HttpSession session, HttpServletRequest request);
+	
+	Result logOutLog(String userId);
 
 }

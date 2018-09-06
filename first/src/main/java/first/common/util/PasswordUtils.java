@@ -2,9 +2,8 @@ package first.common.util;
  
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import first.common.common.Result;
@@ -13,7 +12,8 @@ import first.member.dao.MemberDAO;
 @Component("passwordUtils")
 public class PasswordUtils {
 	
-	@Resource(name="memberDAO")
+//	@Resource(name="memberDAO")
+	@Autowired
 	private MemberDAO memberDAO;
 	
 	public Result changePassword(Map<String, Object> map) {
