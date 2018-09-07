@@ -73,7 +73,7 @@
 			}
 			
 			function fn_insertBoard(){
-				var myId = sessionStorage.getItem('myId');
+				var myId = "<%=session.getAttribute("myId")%>";
 				var comSubmit = new ComSubmit("frm");
 			    oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
 				comSubmit.setUrl("<c:url value='/sample/insertBoard.do' />");

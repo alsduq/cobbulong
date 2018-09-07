@@ -1,5 +1,81 @@
 <%@ page pageEncoding="utf-8"%>
-<div class="row">
-		<div class="col-md-2 menu padding-20">
-			<a href="/first/sample/openBoardList.do">게시판</a>
+<style>
+	a{ cursor: pointer; color: #656565; }
+</style>
+<div class="row" id="mainRow">
+		<div id="aside" class="col-md-2 menu padding-20 margin-20">
+			<div id="sideMenu">
+				<ul>
+					<li><a href="/first/sample/openBoardList.do">게시판</a></li>
+					<li id="recvMessagePage"><a>받은 쪽지함</a></li>
+				</ul>
+			</div>
+			<div id="users">
+				<table class="table">
+					<tr>
+						<th>접속자</th>
+					</tr>
+					<tbody></tbody>
+				</table>
+			</div>
 		</div>
+		<input type="hidden" value="" id="receiver"/>
+		
+<script type="text/javascript">
+	var users = new Array();
+	$(document).ready(function(){
+	var myId = "<%=session.getAttribute("myId")%>";
+		if(myId == "" || myId == null || myId == "null"){
+			$('#recvMessagePage').remove();
+		}
+
+		
+		$("#users a").on("click", function(e){ //제목 
+			e.preventDefault();
+			$('#receiver').val(user[$(this)]);
+			$('#myId').val(myId);
+			fn_message($(this));
+		});
+
+		$('#recvMessagePage').on('click', function(e){
+			e.preventDefault();
+			fn_openRecvMessagePage(myId);
+		});
+		
+	});
+		
+
+	function fn_loginMemberList(){
+		$.ajax({
+			url:'/first/member/loginMember.do',
+			type:'get',
+			success:function(data){
+				console.log("접속자 : " + data);
+				$.each(data, function(idx, item){
+	        		$('#users .table tbody:last').append("<tr><td><a onclick='fn_message("+idx+")';>"+item+"</a></td></tr>");
+	        		users[idx] = item;
+	        	});
+			}
+		});
+	}
+
+	function fn_message(obj){
+		var w = 650;
+		var h = 580;
+		var xPos = (document.body.clientWidth / 2) - (w / 2); 
+	    	xPos += window.screenLeft;  //듀얼 모니터일때....
+	   	var yPos = (screen.availHeight / 2) - (h / 2);
+		window.open('/first/message/openMessageWrite.do?to='+users[obj],'popwindow',"width="+w+",height="+h+", left="+xPos+", top="+yPos+", toolbars=no, resizable=no, scrollbars=no");
+	}
+
+	function fn_openRecvMessagePage(myId){
+		var comSubmit = new ComSubmit();
+		comSubmit.setUrl("<c:url value='/message/openRecvMessage.do' />");
+		comSubmit.addParam("myId", myId);
+		comSubmit.submit();
+	}
+
+	$(document).ready(function(){
+		fn_loginMemberList();
+	});
+</script>

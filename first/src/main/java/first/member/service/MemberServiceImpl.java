@@ -1,6 +1,6 @@
 package first.member.service;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -182,11 +182,10 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public Result logOutLog(String userId) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("inputId", userId);
-		memberDAO.updateLogOutLog(map);
-		return null;
+	public Collection<String> loginMemberList(Map<String, Object> map) {
+		LoginManager loginManager = LoginManager.getInstance();
+		logger.debug(loginManager.getUsers());
+		return loginManager.getUsers();
 	}
 
 	

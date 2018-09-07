@@ -71,16 +71,9 @@ Number.prototype.zf = function (len) { return this.toString().zf(len); };
 
 
 function fn_openBoardWrite(){
-	var myId = sessionStorage.getItem('myId');
-	console.log(myId);
-	if(myId == "" || myId == null){
-		alert("로그인시 이용 가능합니다.");
-		window.location.href = "/first/member/openLogIn.do"
-	} else {
-		var comSubmit = new ComSubmit();
-		comSubmit.setUrl("openBoardWrite.do");
-		comSubmit.submit();
-	}
+	var comSubmit = new ComSubmit();
+	comSubmit.setUrl("openBoardWrite.do");
+	comSubmit.submit();
 }
 
 var fn_dateConverter = (function(){

@@ -1,5 +1,7 @@
 package first.member.controller;
 
+import java.util.Collection;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -98,4 +100,10 @@ public class MemberController {
     public @ResponseBody Result changePassword(CommandMap commandMap) throws Exception{
 		return memberService.changePassword(commandMap.getMap());
 	}
+		
+	@RequestMapping(value="/member/loginMember.do")
+    public @ResponseBody Collection<String> loginMember (CommandMap commandMap) throws Exception{
+		return memberService.loginMemberList(commandMap.getMap());
+	}
+	
 }

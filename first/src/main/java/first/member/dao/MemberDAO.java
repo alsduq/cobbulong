@@ -52,7 +52,4 @@ public class MemberDAO extends AbstractDAO{
 		update("member.updateLogOutLog", map);
 	}
 
-
-	
-
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="message">
+	<resultMap type="first.message.dto.Message" id="procResultMessage"></resultMap>
+	<select id="selectRecvMessage" parameterType="hashmap" resultMap="procResultMessage, procResultInteger1, procResultInteger2">
+		{ CALL study.SP_MESSAGELIST_GET(#{myId}, #{page_idx}, 10, @O_TotalCount, @O_PageIndex)}
+	</select>
+	
+	<select id="insertMessage" parameterType="hashmap" resultType="int">
+		{ CALL study.SP_INSERT_MESSAGE(#{sender}, #{receiver}, #{title}, #{contents}, @O_Result)}
+	</select>
+	
+	<select id="selectMessage" parameterType="hashmap" resultMap="procResultMessage">
+		{ CALL study.SP_SELECT_MESSAGE(#{idx}) }
+	</select>
+</mapper>

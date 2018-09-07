@@ -7,42 +7,40 @@
 	
 		<div class="col-md-8 content">
 			<hr/>
-			<h2>게시판 목록</h2>
+			<h3>받은 쪽지함</h3>
 			<table class="board_list">
 				<colgroup>
+					<col width="4%"/>
 					<col width="10%"/>
 					<col width="*"/>
-					<col width="15%"/>
-					<col width="20%"/>
+					<col width="10%"/>
 				</colgroup>
 				<thead>
 					<tr>
-						<th scope="col">글번호</th>
+						<th scope="col"><input type="checkbox"/></th>
+						<th scope="col">보낸사람</th>
 						<th scope="col">제목</th>
-						<th scope="col">작성자</th>
-						<th scope="col">조회수</th>
-						<th scope="col">작성일</th>
+						<th scope="col">날짜</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${fn:length(list) > 0}">
-							<c:forEach items="${list }" var="row">
+						<c:when test="${fn:length(messageList) > 0}">
+							<c:forEach items="${messageList}" var="row">
 								<tr>
-									<td>${row.idx}</td>
+									<td><input type="checkbox"/><input type="hidden" id="idx" value="${row.idx}"/></td>
+									<td>${row.sender}</td>
 									<td class="title col-md-5">
 										<a href="#this" id="title">${row.title}</a>
 										<input type="hidden" id="idx" value="${row.idx}">
 									</td>
-									<td>${row.crea_id}</td>
-									<td>${row.hit_cnt}</td>
 									<td>${row.crea_dtm}</td>
 								</tr>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="5"></td>
+								<td colspan="4"></td>
 							</tr>
 						</c:otherwise>
 					</c:choose>
@@ -50,7 +48,7 @@
 			</table>
 			<br/>
 			<span style='float:right'>
-				<button href="#this" class="btn btn-default" id="write">글쓰기</button>
+				<button href="#this" class="btn btn-default" id="delete">삭제</button>
 			</span>
 			<div class="text-center">
 			<nav aria-label="Page navigation">
@@ -107,11 +105,11 @@
 		
 	<%@ include file="/WEB-INF/include/include-body.jspf" %>
 	<script type="text/javascript">
+		var myId = "<%=session.getAttribute("myId")%>";
 		$(document).ready(function(){
-			var myId = "<%=session.getAttribute("myId")%>";
 			$("#write").on("click", function(e){ //글쓰기 버튼
 				e.preventDefault();
-				if(myId == null || myId == "" || myId == "null"){
+				if(sessionStorage.getItem("myId") == null || sessionStorage.getItem("myId") == ""){
 					alert("글쓰기는 로그인 후 이용 가능합니다.");
 					window.location.href = "/first/member/openLogIn.do";
 				} else {
@@ -121,7 +119,7 @@
 			
 			$(".title").children("a").on("click", function(e){ //제목 
 				e.preventDefault();
-				fn_openBoardDetail($(this));
+				fn_openMessageDetail($(this));
 			});
 
 			$(".pagination").children().children("a").on("click", function(e){
@@ -139,9 +137,9 @@
 			
 		});
 		
-		function fn_openBoardDetail(obj){
+		function fn_openMessageDetail(obj){
 			var comSubmit = new ComSubmit();
-			comSubmit.setUrl("<c:url value='/sample/openBoardDetail.do' />");
+			comSubmit.setUrl("<c:url value='/message/openMessageDetail.do'/>");
 			comSubmit.addParam("idx", obj.parent().find("#idx").val());
 			comSubmit.submit();
 		}

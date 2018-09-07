@@ -63,7 +63,6 @@
 			          <ul class="dropdown-menu" role="menu">
 			            <li><a href="#">내정보</a></li>
 			            <li><a href="/first/member/openChangePassword.do">비밀번호 변경</a></li>
-			            <li><a href="#">Something else here</a></li>
 			            <li class="divider"></li>
 			            <li><a href="#">Separated link</a></li>
 			          </ul>
@@ -78,13 +77,10 @@
 	(function($) {
 		$(document).ready(function(){
 			var myId = "<%=session.getAttribute("myId")%>";
-			console.log(myId);
 			if(myId == "" || myId == null || myId == "null"){
-				console.log("1");
 				$('#logOutPage').remove();
 				$('#myPage').remove();
 			} else {
-				console.log("2");
 				$('#logInPage').remove();
 				$('#signUpPage').remove();
 			}

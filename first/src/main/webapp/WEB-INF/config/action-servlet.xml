@@ -33,7 +33,6 @@
     	p:viewClass="org.springframework.web.servlet.view.JstlView" 
     	p:prefix="/WEB-INF/jsp/" p:suffix=".jsp">
    	</bean>
-   	
 </beans>
 
 

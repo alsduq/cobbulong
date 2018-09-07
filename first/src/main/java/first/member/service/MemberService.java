@@ -1,5 +1,6 @@
 package first.member.service;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -28,6 +29,6 @@ public interface MemberService {
 
 	Result logOut(Map<String, Object> map, HttpSession session, HttpServletRequest request);
 	
-	Result logOutLog(String userId);
+	Collection<String> loginMemberList(Map<String, Object> map);
 
 }
