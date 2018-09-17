@@ -14,4 +14,8 @@ public interface MessageService {
 
 	Message openMessageDetail(Map<String, Object> map);
 
+	List<List<Object>> sentMessage(Map<String, Object> map);
+	
+	Result deleteMessage(Map<String, Object> map, String[] messageIdx);
+
 }

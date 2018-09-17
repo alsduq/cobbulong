@@ -17,10 +17,10 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th scope="col"><input type="checkbox"/></th>
+						<th scope="col"><input type="checkbox" name="allCheck"/></th>
 						<th scope="col">보낸사람</th>
 						<th scope="col">제목</th>
-						<th scope="col">날짜</th>
+						<th scope="col">받은날짜</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -28,11 +28,10 @@
 						<c:when test="${fn:length(messageList) > 0}">
 							<c:forEach items="${messageList}" var="row">
 								<tr>
-									<td><input type="checkbox"/><input type="hidden" id="idx" value="${row.idx}"/></td>
+									<td><input type="checkbox" name="delCheck" value="${row.idx}"/></td>
 									<td>${row.sender}</td>
 									<td class="title col-md-5">
-										<a href="#this" id="title">${row.title}</a>
-										<input type="hidden" id="idx" value="${row.idx}">
+										<a href="#this">${row.title}</a>
 									</td>
 									<td>${row.crea_dtm}</td>
 								</tr>
@@ -57,7 +56,7 @@
 					<li><a href="#this" aria-label="Previous">&laquo;</a></li>
 					<c:choose>
 						<c:when test="${pageIdx <= 4}">
-							<c:forEach var="i" begin="1" end="${pageIdx}">
+							<c:forEach var="i" begin="1" end="${(count/10)+1}">
 								<c:choose>
 									<c:when test="${pageIdx == i}">
 										<li><a href="#this" style="color:red;">${i}</a></li>
@@ -124,7 +123,7 @@
 
 			$(".pagination").children().children("a").on("click", function(e){
 				e.preventDefault();
-				fn_openBoardList($(this));
+				fn_openRecvMessage($(this));
 			});
 
 			$('.board_list thead tr th').addClass("text-center");
@@ -134,17 +133,33 @@
 				$(this).children().last().text(fn_dateConverter.autoDate(crea_dtm));
 			});
 
-			
+			$('#delete').on("click", function(e){
+				var messageIdx = new Array(); 
+				$('input[name=delCheck]:checked').each(function(idx){
+					messageIdx[idx] = $(this).val();
+				});
+				fn_deleteMessage(messageIdx);
+			});
+
+			$('input[name=allCheck]').on('click',function(){
+				if($(this).is(":checked")){
+					$('input[name=delCheck]').prop('checked', true);
+				}else{
+					$('input[name=delCheck]').prop('checked', false);
+				}
+			});
 		});
 		
 		function fn_openMessageDetail(obj){
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/message/openMessageDetail.do'/>");
-			comSubmit.addParam("idx", obj.parent().find("#idx").val());
+			comSubmit.addParam("idx", obj.parent().parent().children().first().children().val());
+			comSubmit.addParam("type", "R");
+			comSubmit.addParam("page_idx","${pageIdx}");
 			comSubmit.submit();
 		}
 
-		function fn_openBoardList(obj){
+		function fn_openRecvMessage(obj){
 			var comSubmit = new ComSubmit();
 			var pageIdx = obj.html();
 			var totalPage = Math.ceil(${count}/10);
@@ -156,8 +171,8 @@
 			if(previousPage <= 0){
 				previousPage = 1;
 			}
-			console.log("nextPage : " + nextPage);
-			comSubmit.setUrl("<c:url value='/sample/openBoardList.do' />");
+			comSubmit.setUrl("<c:url value='/message/openRecvMessage.do' />");
+			comSubmit.addParam("myId", myId);
 			if(pageIdx == "처음") {
 				comSubmit.addParam("page_idx", "1");
 			} else if (pageIdx == "끝") {
@@ -170,6 +185,23 @@
 				comSubmit.addParam("page_idx", pageIdx);
 			}
 			comSubmit.submit();
+		}
+
+		function fn_deleteMessage(obj){
+			if(confirm("레알 삭제?")){
+				$.ajax({
+					url:'/first/message/deleteMessage.do',
+					traditional: true,
+					type:'post',
+					data:{'messageIdx':obj,
+							'type':'R'},
+					success:function(){
+						window.location.reload();
+					}
+				});
+			} else {
+				return;
+			}
 		}
 	</script>	
 </body>

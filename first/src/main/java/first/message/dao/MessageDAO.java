@@ -25,6 +25,15 @@ public class MessageDAO extends AbstractDAO{
 	public Message selectMessage(Map<String, Object> map) {
 		return (Message) selectOne("message.selectMessage", map);
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<List<Object>> selectSentMessage(Map<String, Object> map) {
+		return (List<List<Object>>) selectList("message.selectSentMessage", map);
+	}
+
+	public int deleteMessage(Map<String, Object> map) {
+		return (int) selectOne("message.deleteMessage", map);
+	}
 	
 
 }

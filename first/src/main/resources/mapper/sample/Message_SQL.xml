@@ -4,7 +4,7 @@
 <mapper namespace="message">
 	<resultMap type="first.message.dto.Message" id="procResultMessage"></resultMap>
 	<select id="selectRecvMessage" parameterType="hashmap" resultMap="procResultMessage, procResultInteger1, procResultInteger2">
-		{ CALL study.SP_MESSAGELIST_GET(#{myId}, #{page_idx}, 10, @O_TotalCount, @O_PageIndex)}
+		{ CALL study.SP_MESSAGELIST_GET(#{myId}, 'receiver', #{page_idx}, 10, @O_TotalCount, @O_PageIndex)}
 	</select>
 	
 	<select id="insertMessage" parameterType="hashmap" resultType="int">
@@ -12,6 +12,14 @@
 	</select>
 	
 	<select id="selectMessage" parameterType="hashmap" resultMap="procResultMessage">
-		{ CALL study.SP_SELECT_MESSAGE(#{idx}) }
+		{ CALL study.SP_SELECT_MESSAGE(#{idx}, #{type})}
+	</select>
+	
+	<select id="selectSentMessage" parameterType="hashmap" resultMap="procResultMessage, procResultInteger1, procResultInteger2">
+		{ CALL study.SP_MESSAGELIST_GET(#{myId}, 'sender', #{page_idx}, 10, @O_TotalCount, @O_PageIndex)}
+	</select>
+	
+	<select id="deleteMessage" parameterType="hashmap" resultType="int">
+		{ CALL study.SP_DELETE_MESSAGE(#{idx}, #{type}, @O_Result)}
 	</select>
 </mapper>

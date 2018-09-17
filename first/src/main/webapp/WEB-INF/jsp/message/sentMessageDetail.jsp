@@ -8,25 +8,29 @@
 			<hr/>
 			<table class="table table-condensed">
 				<colgroup>
-					<col width="15%"/>
-					<col width="35%"/>
-					<col width="15%"/>
-					<col width="35%"/>
+					<col width="10%"/>
+					<col width="20%"/>
+					<col width="10%"/>
+					<col width="25%"/>
+					<col width="10%"/>
+					<col width="25%"/>
 				</colgroup>
 				<caption>쪽지 읽기</caption>
 				<tbody>
 					<tr>
-						<th scope="row">보낸 사람</th>
-						<td>${message.sender}</td>
-						<th scope="row">받은 시간</th>
+						<th scope="row">받는 사람</th>
+						<td>${message.receiver}</td>
+						<th scope="row">보낸 시간</th>
 						<td id="crea_dtm">${message.crea_dtm}</td>
+						<th scope="row">받은 시간</th>
+						<td id="read_dtm">${message.read_dtm}</td>
 					</tr>
 					<tr>
 						<th scope="row">제목</th>
-						<td colspan="3">${message.title}</td>
+						<td colspan="5">${message.title}</td>
 					</tr>
 					<tr>
-						<td colspan="4"><div style="min-height:300px; padding:10px;">${message.contents}</div></td>
+						<td colspan="6"><div style="min-height:300px; padding:10px;">${message.contents}</div></td>
 					</tr>
 				</tbody>
 			</table>
@@ -52,33 +56,40 @@
 	
 	<%@ include file="/WEB-INF/include/include-body.jspf" %>
 	<script type="text/javascript">
-		var board_idx = "${map.idx}";
-		var myId = sessionStorage.getItem("myId");
+		var myId = "<%=session.getAttribute("myId")%>";
 		$(document).ready(function(){
+			$("#reply").on("click", function(e){ //답장쓰기
+				e.preventDefault();
+				fn_sendMessage("${message.sender}");
+			});
+
+			$('#delete').on("click", function(e){
+				var messageIdx = "${message.idx}"; 
+				fn_deleteMessage(messageIdx);
+			});
 			
-			$("#reply").on("click", function(e){ //목록으로 버튼
-				e.preventDefault();
-				fn_message("${message.sender}");
-			});
-			$("#update").on("click", function(e){ //수정하기 버튼
-				e.preventDefault();
-				fn_openBoardUpdate();
-			});
-	     	$('#crea_dtm').text(fn_dateConverter.dateTime("${message.crea_dtm}"));
-
-
+			$('#crea_dtm').text(fn_dateConverter.dateTime("${message.crea_dtm}"));
+			$('#read_dtm').text(fn_dateConverter.dateTime("${message.read_dtm}"));
 		});
 
-		function fn_message(obj){
-			var w = 650;
-			var h = 580;
-			var xPos = (document.body.clientWidth / 2) - (w / 2); 
-		    	xPos += window.screenLeft;  //듀얼 모니터일때....
-		   	var yPos = (screen.availHeight / 2) - (h / 2);
-			window.open('/first/message/openMessageWrite.do?to='+obj,'popwindow',"width="+w+",height="+h+", left="+xPos+", top="+yPos+", toolbars=no, resizable=no, scrollbars=no");
+		function fn_deleteMessage(obj){
+			if(confirm("레알 삭제?")){
+				$.ajax({
+					url:'/first/message/deleteMessage.do',
+					traditional: true,
+					type:'post',
+					data:{'messageIdx':obj,
+							'type':'S'},
+					success:function(){
+						fn_openSentMessagePage("${pageIdx}");
+					}
+				});
+			} else {
+				return;
+			}
 		}
 
-        
+
 	</script>
 </body>
 </html>

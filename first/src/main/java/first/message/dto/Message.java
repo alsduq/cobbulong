@@ -4,7 +4,9 @@ public class Message {
 	private int idx;
 	private String title;
 	private String sender;
+	private String receiver;
 	private Object crea_dtm;
+	private Object read_dtm;
 	private String contents;
 	
 	public Message() {
@@ -49,5 +51,25 @@ public class Message {
 
 	public void setIdx(int idx) {
 		this.idx = idx;
+	}
+
+	public String getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
+
+	public Object getRead_dtm() {
+		if(read_dtm == null || read_dtm == "") {
+			return "읽지않음";
+		}else {
+			return read_dtm;
+		}
+	}
+
+	public void setRead_dtm(Object read_dtm) {
+		this.read_dtm = read_dtm;
 	}
 }

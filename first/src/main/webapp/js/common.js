@@ -136,6 +136,14 @@ function getCookie(cookie_name) {
 }
 
 
+function fn_sendMessage(obj){
+	var w = 650;
+	var h = 580;
+	var xPos = (document.body.clientWidth / 2) - (w / 2); 
+    	xPos += window.screenLeft;  //듀얼 모니터일때....
+   	var yPos = (screen.availHeight / 2) - (h / 2);
+	window.open('/first/message/openMessageWrite.do?to='+obj,'popwindow',"width="+w+",height="+h+", left="+xPos+", top="+yPos+", toolbars=no, resizable=no, scrollbars=no");
+}
 
 
 

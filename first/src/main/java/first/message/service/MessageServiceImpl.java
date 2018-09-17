@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import first.common.common.Result;
 import first.common.util.PasswordUtils;
@@ -40,10 +42,34 @@ public class MessageServiceImpl implements MessageService{
 	public List<List<Object>> recvMessage(Map<String, Object> map) {
 		return messageDAO.selectRecvMessage(map);
 	}
-
+	
 	@Override
 	public Message openMessageDetail(Map<String, Object> map) {
 		return messageDAO.selectMessage(map);
+	}
+
+	@Override
+	public List<List<Object>> sentMessage(Map<String, Object> map) {
+		return messageDAO.selectSentMessage(map);
+	}
+
+	@Transactional(rollbackFor=Exception.class)
+	@Override
+	public Result deleteMessage(Map<String, Object> map, String[] messageIdx) {
+		int result;
+		for(String idx : messageIdx) {
+			map.put("idx", idx);
+			result = messageDAO.deleteMessage(map);
+			if(result != 1) {
+				try {
+					throw new Exception("삭제 실패.");
+				}catch(Exception e) {
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					return new Result(false, "삭제 실패");
+				}
+			}
+		}
+		return new Result(true, "메세지가 삭제되었습니다.");
 	}
 
 
