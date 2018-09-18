@@ -42,6 +42,13 @@
    	
    	<!-- 트랜잭션 처리 -->
    	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+   	
+   	<!-- websocket -->
+   	<websocket:handlers>
+   		<websocket:mapping handler="echoHandler" path="/echo"/>
+   		<websocket:sockjs/>
+   	</websocket:handlers>
+	<bean id="echoHandler" class="com.tproject.util.EchoHandler"/>
 
 </beans>
 
