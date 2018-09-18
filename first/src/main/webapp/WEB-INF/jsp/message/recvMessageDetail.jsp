@@ -63,6 +63,10 @@
 				var messageIdx = "${message.idx}"; 
 				fn_deleteMessage(messageIdx);
 			});
+
+			$('#list').on("click", function(e){
+				fn_openRecvMessagePage("${pageIdx}");
+			});
 			
 	     	$('#crea_dtm').text(fn_dateConverter.dateTime("${message.crea_dtm}"));
 

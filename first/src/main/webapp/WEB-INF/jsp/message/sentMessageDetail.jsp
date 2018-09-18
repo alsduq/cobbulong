@@ -41,7 +41,6 @@
                            <tr>
                                <td>
                                    <span style='float:right'>
-                                       <button type="button" id="reply" class="btn btn-default">답장</button>
                                        <button type="button" id="delete" class="btn btn-default">삭제</button>
                                        <button type="button" id="list" class="btn btn-default">목록</button>
                                    </span>
@@ -66,6 +65,10 @@
 			$('#delete').on("click", function(e){
 				var messageIdx = "${message.idx}"; 
 				fn_deleteMessage(messageIdx);
+			});
+
+			$('#list').on("click", function(e){
+				fn_openRecvMessagePage("${pageIdx}");
 			});
 			
 			$('#crea_dtm').text(fn_dateConverter.dateTime("${message.crea_dtm}"));

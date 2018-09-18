@@ -32,8 +32,12 @@
 		
 		fn_loginMemberList();
 
-		$(document).on('click','.user', function(){
-			fn_sendMessage($(this).text());
+		$(document).on('click','.message', function(){
+			fn_sendMessage($(this).parent().parent().prevAll('a').text());
+		});
+
+		$(document).on('click','.chatting', function(){
+			fn_chatting($(this).parent().parent().prevAll('a').text());
 		});
 		
 		$('#recvMessagePage').on('click', function(e){
@@ -55,10 +59,25 @@
 			type:'get',
 			success:function(data){
 				$.each(data, function(idx, item){
-	        		$('#users .table tbody:last').append("<tr><td><a class='user'>"+item+"</a></td></tr>");
+	        		$('#users .table tbody:last').append("<tr><td>"
+									    	        		+"<a class='dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>"+item+"<span class='caret'></span></a>"
+									    	        		+"<ul class='dropdown-menu' role='menu' style='position:relative;'>"
+										    	        		+"<li><a class='message'>쪽지 보내기</a></li>"
+										    	        		+"<li><a class='chatting'>1:1채팅</a></li>"
+									    	        		+"</ul>"
+								    	        		+"</td></tr>");
 	        	});
 			}
 		});
+	}
+
+	function fn_chatting(userId){
+		var w = 650;
+		var h = 580;
+		var xPos = (document.body.clientWidth / 2) - (w / 2); 
+	    	xPos += window.screenLeft;  //듀얼 모니터일때....
+	   	var yPos = (screen.availHeight / 2) - (h / 2);
+		window.open('/first/chatting/openChatting.do','popwindow',"width="+w+",height="+h+", left="+xPos+", top="+yPos+", toolbars=no, resizable=no, scrollbars=no");
 	}
 
 	function fn_openRecvMessagePage(page_idx){
