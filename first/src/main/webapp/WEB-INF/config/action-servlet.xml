@@ -29,10 +29,9 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
-    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
     
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0" />
-    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />    
+    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />    
     
     <bean
     	class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1" 
@@ -48,7 +47,7 @@
    		<websocket:mapping handler="echoHandler" path="/echo"/>
    		<websocket:sockjs/>
    	</websocket:handlers>
-	<bean id="echoHandler" class="com.tproject.util.EchoHandler"/>
+	<bean id="echoHandler" class="first.common.util.EchoHandler"/>
 
 </beans>
 

@@ -14,8 +14,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<!-- Zebra-Dialog CDN -->
-	<script src="resources/js/dialog/zebra_dialog.src.js"></script>
-	<link rel="stylesheet" href="resources/css/dialog/zebra_dialog.css" type="text/css"/>
+	<script src="/first/js/zebra_dialog.src.js"></script>
+	<link rel="stylesheet" href="/first/css/zebra_dialog.css" type="text/css"/>
 	<!-- SocketJS CDN -->
 	<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 	
@@ -58,70 +58,71 @@ $(function(){
 });
 </script>
 <script type="text/javascript">
-//websocket을 지정한 URL로 연결
-var sock= new SockJS("<c:url value="/echo"/>");
-//websocket 서버에서 메시지를 보내면 자동으로 실행된다.
-sock.onmessage = onMessage;
-//websocket 과 연결을 끊고 싶을때 실행하는 메소드
-sock.onclose = onClose;
-$(function(){
-	$("#sendBtn").click(function(){
-		console.log('send message...');
-        sendMessage();
-    });
-});
-        
-function sendMessage(){      
-	//websocket으로 메시지를 보내겠다.
-  	sock.send($("#message").val());     
-}
-            
-//evt 파라미터는 websocket이 보내준 데이터다.
-function onMessage(evt){  //변수 안에 function자체를 넣음.
-	var data = evt.data;
-	var sessionid = null;
-	var message = null;
-	
-	//문자열을 splite//
-	var strArray = data.split('|');
-	
-	for(var i=0; i<strArray.length; i++){
-		console.log('str['+i+']: ' + strArray[i]);
+	//websocket을 지정한 URL로 연결
+	var sock= new SockJS("<c:url value='/echo'/>");
+	//websocket 서버에서 메시지를 보내면 자동으로 실행된다.
+	sock.onmessage = onMessage;
+	//websocket 과 연결을 끊고 싶을때 실행하는 메소드
+	sock.onclose = onClose;
+	console.log(sock);
+	$(function(){
+		$("#sendBtn").click(function(){
+			console.log('send message...');
+	        sendMessage();
+	    });
+	});
+	console.log("2222");
+	function sendMessage(){      
+		//websocket으로 메시지를 보내겠다.
+	  	sock.send($("#message").val());     
 	}
-	
-	//current session id//
-	var currentuser_session = $('#sessionuserid').val();
-	console.log('current session id: ' + currentuser_session);
-	
-	sessionid = strArray[0]; //현재 메세지를 보낸 사람의 세션 등록//
-	message = strArray[1]; //현재 메세지를 저장//
-	
-	//나와 상대방이 보낸 메세지를 구분하여 영역을 나눈다.//
-	if(sessionid == currentuser_session){
-		var printHTML = "<div class='well'>";
-		printHTML += "<div class='alert alert-info'>";
-		printHTML += "<strong>["+sessionid+"] -> "+message+"</strong>";
-		printHTML += "</div>";
-		printHTML += "</div>";
+	console.log("33333");       
+	//evt 파라미터는 websocket이 보내준 데이터다.
+	function onMessage(evt){  //변수 안에 function자체를 넣음.
+		var data = evt.data;
+		var sessionid = null;
+		var message = null;
 		
-		$("#chatdata").append(printHTML);
-	} else{
-		var printHTML = "<div class='well'>";
-		printHTML += "<div class='alert alert-warning'>";
-		printHTML += "<strong>["+sessionid+"] -> "+message+"</strong>";
-		printHTML += "</div>";
-		printHTML += "</div>";
+		//문자열을 splite//
+		var strArray = data.split('|');
 		
-		$("#chatdata").append(printHTML);
+		for(var i=0; i<strArray.length; i++){
+			console.log('str['+i+']: ' + strArray[i]);
+		}
+		
+		//current session id//
+		var currentuser_session = $('#sessionuserid').val();
+		console.log('current session id: ' + currentuser_session);
+		
+		sessionid = strArray[0]; //현재 메세지를 보낸 사람의 세션 등록//
+		message = strArray[1]; //현재 메세지를 저장//
+		
+		//나와 상대방이 보낸 메세지를 구분하여 영역을 나눈다.//
+		if(sessionid == currentuser_session){
+			var printHTML = "<div class='well'>";
+			printHTML += "<div class='alert alert-info'>";
+			printHTML += "<strong>["+sessionid+"] -> "+message+"</strong>";
+			printHTML += "</div>";
+			printHTML += "</div>";
+			
+			$("#chatdata").append(printHTML);
+		} else{
+			var printHTML = "<div class='well'>";
+			printHTML += "<div class='alert alert-warning'>";
+			printHTML += "<strong>["+sessionid+"] -> "+message+"</strong>";
+			printHTML += "</div>";
+			printHTML += "</div>";
+			
+			$("#chatdata").append(printHTML);
+		}
+		
+		console.log('chatting data: ' + data);
+		
+	  	/* sock.close(); */
 	}
-	
-	console.log('chatting data: ' + data);
-	
-  	/* sock.close(); */
-}
-    
-function onClose(evt){
-	$("#data").append("연결 끊김");
-}    
+	console.log("4444");
+	function onClose(evt){
+		$("#data").append("연결 끊김");
+	}    
 </script>
 </html>

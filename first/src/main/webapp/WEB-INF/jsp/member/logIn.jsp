@@ -47,7 +47,11 @@
 			if(saveId != null){
 				$('#inputId').val(saveId);
 				$('#saveIdCheck').attr("checked",true);
+				$('#inputPassword').focus();
+			}else{
+				$('#inputId').focus();
 			}
+
 
 			$('#signUp').on('click', function(e){
 				e.preventDefault();
